@@ -1,128 +1,380 @@
-# PlantPulse Circular 🌿
-### A 3D Virtual Digital Twin for Closed-Loop Water, Nutrient & Carbon Management
+# 🌿 PlantPulse Circular
 
-PlantPulse Circular is a complete, fully coded **Virtual Digital Twin** of a sustainable circular garden ecosystem. It couples **Three.js WebGL 3D graphics**, an **IoT MQTT messaging bus**, a **Random Forest Machine Learning decision engine**, and a **closed-loop circular economy physics simulator** with an interactive glassmorphic dashboard.
+### The Intelligence Behind a Sustainable Garden.
 
----
+**A 3D Virtual Digital Twin for Closed-Loop Water, Nutrient & Carbon Management**
 
-## 🌟 What We Built & Key Differentiators
+<p align="center">
+  <a href="https://plantpulse-circular.onrender.com">🌐 Live Demo</a> •
+  <a href="https://github.com/prajnanrao/PlantPulse-Circular">💻 Source Code</a>
+</p>
 
-Unlike traditional static dashboards or cumbersome Unity/Blender setups that require multi-gigabyte software installs, PlantPulse Circular runs **100% in any modern web browser** with zero installation hurdles:
-
-1. **Interactive 3D Virtual Digital Twin (Three.js WebGL):**
-   - **Procedural 3D Plant Beds:** Roma Tomatoes (with climbing vines and red fruit), Sweet Basil (dense aromatic bush clusters), and Baby Spinach (crisp broad rosettes).
-   - **Dynamic Soil Hydration Shader:** Real-time visual transition from dry dusty clay (`#c48b5b`) to rich dark loam (`#271911`) based on soil moisture %.
-   - **Dynamic Plant Phenology & Wilting:** Plants realistically droop, curl, and turn sickly yellow under water deficit, and perk up vibrant green when healthy.
-   - **Smart Rainwater Cistern:** Transparent acrylic/glass cylinder showing real-time animated water level, oscillating surface waves, inflow downspout, and solar pump status LED.
-   - **Aerobic Compost Bioreactor:** Hexagonal tumbler drum on an A-frame stand featuring active thermophilic steam particles rising during aerobic decomposition.
-   - **Dynamic Weather System:** Real-time 3D falling rain particle streaks during rainfall, moving sunlight shadows, and micro-sprinkler droplets spraying onto beds during irrigation.
-   - **Interactive Raycasting & Inspection HUD:** Hovering or clicking any 3D bed, tank, or compost unit highlights it and opens a live telemetry card with one-click manual overrides.
-   - **Camera Presets:** Smooth camera transitions between Panoramic, Tomato Bed, Basil Bed, Spinach Bed, Rain Tank, Compost Unit, and Top-Down Heatmap.
-
-2. **Machine Learning Decision Engine:**
-   - **Random Forest Regressor (120 Trees):** Predicts precise evapotranspiration irrigation demand per bed, achieving $R^2 = 0.969$ and $\text{MAE} = 0.799\text{ L}$.
-   - **Baseline Benchmark Comparison:** Compares ML against a traditional Fixed-Timer Baseline ($\text{MAE} = 6.50\text{ L}$) and Rule-Based Threshold ($\text{MAE} = 3.27\text{ L}$).
-   - **Feature Importance Ranking:** Visual breakdown of predictive factors (Soil Moisture Deficit 69.9%, Bed Area 21.2%, Light 4.1%, Temperature 2.5%, Crop Type 1.0%).
-
-3. **Scenario Simulator (A/B Parallel Digital Twin):**
-   - **1-Click Stress Test:** Runs both Conventional Linear (tap water, landfill waste, fixed schedule) and Circular Digital Twin side-by-side under identical weather series.
-   - **Built-in Scenarios:** *Summer Heatwave & Drought* (36-40°C), *Monsoon Deluge* (8-28mm rain), and *Variable Spring*.
-   - **Comparative Charts & Audit Export:** Generates comparative Chart.js time-series and downloadable CSV audit reports proving up to **80.9% freshwater savings** and **100% organic waste diversion**.
-
-4. **MQTT IoT Telemetry & Control Bridge:**
-   - Powered by Paho-MQTT, publishing telemetry across structured topics (`plantpulse/telemetry/weather`, `plantpulse/telemetry/beds/{id}`, `plantpulse/telemetry/tank`, `plantpulse/telemetry/sustainability`).
-   - Listens for remote control commands (`plantpulse/commands/step`, `plantpulse/commands/mode`).
-   - Integrated live telemetry log console in the web interface.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Three.js-WebGL-black?style=for-the-badge&logo=threedotjs" alt="Three.js">
+  <img src="https://img.shields.io/badge/Machine_Learning-Random_Forest-2E8B57?style=for-the-badge" alt="Machine Learning">
+  <img src="https://img.shields.io/badge/Backend-Flask-000000?style=for-the-badge&logo=flask" alt="Flask">
+  <img src="https://img.shields.io/badge/IoT-MQTT-660066?style=for-the-badge" alt="MQTT">
+</p>
 
 ---
 
-## 🚀 Quick Start Guide
+## The Project at a Glance
 
-### Prerequisites
-- Python 3.10+ (Tested with Python 3.10 – 3.14)
-- Modern Web Browser (Chrome, Firefox, Edge, Safari)
+PlantPulse Circular transforms a conventional garden-monitoring system into an interactive virtual ecosystem.
 
-### 1. Setup Environment
+It combines a procedural 3D garden, predictive irrigation intelligence, environmental simulation, and circular resource accounting in a single browser-based platform.
+
+**The central idea:** What if a garden could be visualized, monitored, simulated, and optimized through its own digital twin?
+
+## Project Overview
+
+<p align="center">
+  <img src="docs/images/plantpulse-overview.png" alt="PlantPulse Circular project overview infographic" width="100%">
+</p>
+
+## What Makes PlantPulse Different?
+
+| Capability | What it does |
+|---|---|
+| 3D Digital Twin | Visualizes crop beds, rainwater infrastructure, and composting |
+| Dynamic Simulation | Models soil moisture, plant stress, weather, and irrigation |
+| Predictive Intelligence | Estimates crop-bed irrigation demand using Random Forest |
+| Circular Resource Management | Simulates rainwater reuse and organic waste recovery |
+| Scenario Comparison | Compares conventional and circular garden operations |
+| IoT Communication | Provides MQTT telemetry and remote command integration |
+
+---
+
+## 01 / The Virtual Garden
+
+**A living 3D representation of a circular horticulture ecosystem.**
+
+Powered by Three.js and WebGL, the virtual environment contains three crop beds and two supporting infrastructure units.
+
+- **Roma Tomato Bed:** Climbing vines and developing fruits.
+- **Sweet Basil Bed:** Dense aromatic plant clusters.
+- **Baby Spinach Bed:** Broad-leaf rosettes.
+- **Rainwater Cistern:** Transparent tank with animated water levels, inflow, and pump-status visualization.
+- **Compost Bioreactor:** Hexagonal tumbler with animated decomposition steam.
+
+### Interactive Simulation
+
+- Soil appearance changes according to moisture conditions.
+- Plant appearance represents simulated water-stress conditions.
+- Rainfall and irrigation are visualized through particle effects.
+- Users can inspect individual components using raycasting.
+- Camera presets provide panoramic, crop-specific, infrastructure, and top-down views.
+
+## 02 / Predictive Intelligence
+
+**Machine learning for smarter irrigation decisions.**
+
+PlantPulse uses a Random Forest Regressor with 120 estimators to predict irrigation demand for individual crop beds.
+
+<details>
+<summary><strong>Model performance and evaluation</strong></summary>
+
+| Evaluation Metric | Result |
+|---|---:|
+| R² Score | 0.969 |
+| Mean Absolute Error | 0.799 L |
+| Number of Estimators | 120 |
+| Training Records | 4,000 |
+
+**Benchmark comparison**
+
+| Approach | MAE |
+|---|---:|
+| Random Forest | 0.799 L |
+| Rule-Based Threshold | 3.273 L |
+| Fixed-Timer Baseline | 6.500 L |
+
+**Feature importance**
+
+| Input Feature | Importance |
+|---|---:|
+| Soil Moisture Deficit | 69.9% |
+| Bed Area | 21.2% |
+| Light | 4.1% |
+| Temperature | 2.5% |
+| Crop Type | 1.0% |
+
+</details>
+
+<sub>Model metrics are based on synthetic training data and are not a substitute for real-world field validation.</sub>
+
+## 03 / Circular Economy Simulator
+
+**Compare two different approaches to managing garden resources.**
+
+<details>
+<summary><strong>Conventional linear system</strong></summary>
+
+- Tap-water-dependent irrigation.
+- Fixed irrigation schedules.
+- Organic waste sent to landfill.
+
+</details>
+
+<details>
+<summary><strong>PlantPulse circular system</strong></summary>
+
+- Rainwater reuse.
+- ML-assisted irrigation demand estimation.
+- Organic waste recovery through composting.
+- Resource consumption and sustainability accounting.
+
+</details>
+
+### Environmental Stress Scenarios
+
+| Scenario | Conditions |
+|---|---|
+| Summer Heatwave & Drought | 36–40°C |
+| Monsoon Deluge | 8–28 mm rainfall |
+| Variable Spring | Changing environmental conditions |
+
+### Reported Simulation Outcomes
+
+<details>
+<summary><strong>72-hour drought scenario results</strong></summary>
+
+| Metric | Baseline | PlantPulse |
+|---|---:|---:|
+| Freshwater Extracted | 288.00 L | 55.12 L |
+| Organic Waste | 4.20 kg | 0.00 kg |
+| Crop Health | 72.1% | 91.4% |
+| Emissions Avoided | 0.00 kg | 3.32 kg |
+
+**Simulated impact:**
+- 80.9% reduction in freshwater extraction.
+- 100% organic waste diversion.
+- 19.3 percentage-point improvement in simulated crop health.
+
+</details>
+
+The scenario engine generates comparative charts and downloadable CSV audit reports.
+
+*These are simulation outputs, not measured experimental results.*
+
+## 04 / Connected IoT Architecture
+
+PlantPulse includes an MQTT communication bridge using Paho-MQTT.
+
+**Telemetry topics**
+
+```text
+plantpulse/telemetry/weather
+plantpulse/telemetry/beds/{id}
+plantpulse/telemetry/tank
+plantpulse/telemetry/sustainability
+```
+
+**Command topics**
+
+```text
+plantpulse/commands/step
+plantpulse/commands/mode
+```
+
+The bridge supports telemetry publishing, command subscriptions, and a dashboard activity console. Physical sensors and actuators are not connected in the current deployment.
+
+---
+
+## System Architecture
+
+```mermaid
+flowchart TD
+    A[Web Dashboard] --> B[Three.js Virtual Garden]
+    A --> C[Frontend Controller]
+    C --> D[Flask REST API]
+    D --> E[Digital Twin Simulation]
+    D --> F[Random Forest ML Engine]
+    D --> G[MQTT Bridge]
+    E --> H[Water and Compost Accounting]
+    E --> I[Environmental Scenarios]
+    F --> J[Irrigation Prediction]
+    G --> K[MQTT Broker]
+    H --> L[Sustainability Metrics]
+    I --> L
+    J --> L
+    L --> A
+```
+
+## Technology Stack
+
+| Component | Technologies |
+|---|---|
+| 3D Engine | Three.js, WebGL |
+| Frontend | HTML, CSS, JavaScript |
+| Data Visualization | Chart.js |
+| Backend | Python, Flask |
+| Machine Learning | Scikit-learn, Random Forest |
+| Data Processing | NumPy, Pandas |
+| Model Storage | Joblib |
+| IoT Communication | Paho-MQTT |
+| Deployment | Render |
+| Testing | Pytest |
+
+---
+
+## Mathematical Model
+
+PlantPulse uses a simulation-based accounting framework for resource and sustainability analysis.
+
+**Freshwater savings**
+
+\[
+W_s=\max(0,W_b-W_c)
+\]
+
+**Water savings percentage**
+
+\[
+W_{\%}=\frac{W_s}{W_b}\times100
+\]
+
+**Organic waste recovery**
+
+\[
+R_w=\min\left(100,\frac{M_c}{M_e}\times100\right)
+\]
+
+**Solar pump energy**
+
+\[
+E=V_i\times0.00035
+\]
+
+**Avoided carbon emissions**
+
+\[
+CO_{2e}=(V_r\times0.0003)+(M_a\times1.2)
+\]
+
+Where \(W_b\) is baseline tap-water consumption, \(W_c\) is circular freshwater consumption, \(M_c\) is composted waste, \(M_e\) is eligible organic waste, \(V_i\) is irrigation volume, \(V_r\) is rainwater reused, and \(M_a\) is compost applied.
+
+These equations support comparative accounting within the virtual simulation. They are not independently measured life-cycle assessment results.
+
+---
+
+## Run Locally
+
+### Requirements
+
+- Python 3.10+
+- Git
+- Modern web browser
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/prajnanrao/PlantPulse-Circular.git
+cd PlantPulse-Circular
+```
+
+**2. Create and activate a virtual environment**
+
 ```powershell
-# In PowerShell / Terminal:
 python -m venv .venv
-# Activate on Windows:
 .venv\Scripts\Activate.ps1
-# (Or on Linux/macOS: source .venv/bin/activate)
+```
 
-# Install required dependencies
+**3. Install dependencies**
+
+```bash
 python -m pip install -r requirements.txt
 ```
 
-### 2. Train the Random Forest Model
-```powershell
+**4. Train the ML model**
+
+```bash
 python -m backend.train_model
-
 ```
-*(Trains the model on 4,000 synthetic microclimate records and outputs metrics to `models/irrigation_demand.joblib`)*
 
-### 3. Launch the Virtual Digital Twin
-```powershell
+**5. Launch the application**
+
+```bash
 python -m backend.app
 ```
-Open **[http://127.0.0.1:5000](http://127.0.0.1:5000)** in your browser!
 
----
+Open **http://127.0.0.1:5000** in your browser.
 
-## 🧪 Automated Tests
+## Testing
 
-Run the comprehensive pytest suite verifying state transitions, circular accounting, ML metrics, and API endpoints:
+Run the automated test suite:
+
 ```powershell
 .venv\Scripts\python -m pytest -v
 ```
-All 9 test suites validate cleanly.
+
+The supplied tests cover API behavior, simulation state transitions, resource accounting, and model evaluation.
 
 ---
 
-## 📊 Core Mathematical Formulas & LCA Accounting
+## Repository Structure
 
-- **Water Saved:**
-  $$\text{Freshwater Saved (L)} = \max(0, \text{Baseline Tap Water} - \text{Circular Freshwater Used})$$
-- **Water Savings (%):**
-  $$\text{Water Savings (\%)} = \frac{\text{Freshwater Saved}}{\text{Baseline Tap Water}} \times 100$$
-- **Organic Waste Recovery Rate (%):**
-  $$\text{Waste Recovery (\%)} = \min\left(100, \frac{\text{Organic Waste Composted (kg)}}{\text{Total Eligible Waste (kg)}} \times 100\right)$$
-- **Solar Pump Energy Consumption:**
-  $$\text{Energy (kWh)} = \text{Irrigation (L)} \times 0.00035\text{ kWh/L}$$
-- **Avoided Carbon Emissions ($kg\text{ CO}_2\text{e}$):**
-  $$\text{Avoided CO}_2\text{e} = (\text{Rainwater Reused (L)} \times 0.0003) + (\text{Compost Applied (kg)} \times 1.2)$$
-
----
-
-## 📁 Repository Structure
-
-```
-plantpulse-circular-digital-twin/
+```text
+PlantPulse-Circular/
+│
 ├── backend/
-│   ├── app.py                 # Flask REST API, static server, and twin orchestration
-│   ├── config.py              # System physical parameters & LCA emission factors
-│   ├── ml.py                  # Random Forest training, evaluation & inference
-│   ├── mqtt_manager.py        # Paho MQTT telemetry bridge & command listener
-│   ├── simulation.py          # Deterministic digital twin state physics & scenarios
-│   └── train_model.py         # Standalone model training CLI
+│   ├── app.py
+│   ├── config.py
+│   ├── ml.py
+│   ├── mqtt_manager.py
+│   ├── simulation.py
+│   └── train_model.py
+│
 ├── dashboard/
-│   ├── index.html             # Main digital twin single-page application
-│   ├── style.css              # Cyber-botanic glassmorphic design system
-│   ├── twin3d.js              # Three.js 3D WebGL Digital Twin Engine
-│   └── app.js                 # Frontend telemetry controller & Chart.js charts
+│   ├── index.html
+│   ├── style.css
+│   ├── twin3d.js
+│   └── app.js
+│
 ├── data/
-│   ├── README.md              # Synthetic dataset provenance documentation
-│   └── synthetic_irrigation_training.csv
 ├── docs/
-│   ├── architecture.md        # Detailed twin architecture & communication diagrams
-│   └── methodology.md         # Scientific equations, agronomic assumptions & LCA
+│   ├── images/
+│   │   └── plantpulse-overview.png
+│   ├── architecture.md
+│   └── methodology.md
+│
 ├── models/
-│   └── irrigation_demand.joblib # Serialized Random Forest model & metrics bundle
 ├── tests/
-│   ├── test_api.py            # API endpoint and telemetry tests
-│   └── test_simulation.py     # Water balance, compost loop & constraint tests
-├── unity-twin/                # Optional Unity C# scripts for teams with Unity exposure
-├── requirements.txt           # Python dependencies
-└── README.md                  # Project overview and guide
+├── unity-twin/
+├── requirements.txt
+└── README.md
 ```
 
+## Limitations
+
+- Training and evaluation use synthetic data.
+- Soil and crop behavior are simplified simulation models.
+- The current application uses an in-memory server state.
+- Physical IoT hardware integration is not deployed.
+- Carbon and sustainability metrics depend on configured assumptions and emission factors.
+
+## Future Scope
+
+- Integration with physical environmental sensors.
+- Real-time hardware-to-digital-twin synchronization.
+- Field-calibrated irrigation prediction.
+- Persistent historical telemetry and analytics.
+- More detailed crop growth and nutrient-cycle modeling.
+- Expanded carbon accounting using validated emission factors.
+
+---
+
+## 🌍 Our Vision
+
+PlantPulse Circular explores how digital twins, machine learning, and circular economy principles can work together to make resource management more intelligent.
+
+**Grow Smart. Waste Less. Live Green.**
+
+<p align="center">
+  <a href="https://plantpulse-circular.onrender.com"><strong>🌿 EXPLORE THE LIVE DIGITAL TWIN</strong></a>
+</p>
+
+<p align="center">
+  Built with curiosity, code, and a vision for sustainable technology.
+</p>
