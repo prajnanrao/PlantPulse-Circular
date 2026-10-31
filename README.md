@@ -30,7 +30,7 @@ It combines a procedural 3D garden, predictive irrigation intelligence, environm
 ## Project Overview
 
 <p align="center">
-  <img src="docs/images/plantpulse-overview.png" alt="PlantPulse Circular project overview infographic" width="100%">
+  <img src="docs/plantpulse-overview.png" alt="PlantPulse Circular project overview infographic" width="100%">
 </p>
 
 ## What Makes PlantPulse Different?
