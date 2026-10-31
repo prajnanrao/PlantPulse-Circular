@@ -126,21 +126,3 @@ plantpulse-circular-digital-twin/
 └── README.md                  # Project overview and guide
 ```
 
----
-
-## 👥 4-Member Team Role Division
-
-- **Member 1 (Simulation & ML Modeling):** Synthetic dataset design, Random Forest Regressor hyperparameter tuning, feature importance extraction, held-out evaluation.
-- **Member 2 (Circularity & Carbon LCA):** Mass balance (rainwater harvesting, organic waste conversion, compost thermophilic kinetics), energy calculations, CO₂ emissions accounting.
-- **Member 3 (3D Virtual Digital Twin UI):** Three.js WebGL scene assembly, dynamic soil/plant wilting shaders, water height animation, particle rain & steam systems, camera transitions.
-- **Member 4 (IoT Telemetry & Integration):** Flask API endpoints, MQTT topic hierarchy, A/B Scenario Simulator, testing suite, and demo coordination.
-
----
-
-## 📜 Demonstration Script (5-Minute Presentation)
-
-1. **Introduction (1 min):** Open `http://127.0.0.1:5000`. Present the 3D Virtual Garden terrace rendered in real-time WebGL. Point out the Tomato trellis, Basil clusters, Spinach bed, Rainwater Cistern, and Compost Tumbler.
-2. **Interactive 3D Inspection (1 min):** Click on the Roma Tomato bed. Show how the 3D camera smoothly glides forward and opens the live telemetry HUD card showing soil moisture (38%), crop vigor, and ML predicted demand. Click "Spot Irrigate +3L" to show the live sprinkler water spray animation!
-3. **ML Decision Support (1 min):** Switch to the **🤖 ML Decision** tab. Explain how Random Forest regression predicts exact irrigation need ($0.799\text{ L}$ error) compared to wasteful fixed timers ($6.50\text{ L}$ error), highlighting the Feature Importance breakdown.
-4. **A/B Scenario Stress Test (1 min):** Switch to **⚖ Scenario A/B** tab. Select *"Summer Heatwave & Drought"* and click **"Run Side-by-Side Simulation"**. Show the instant comparison graph: the Circular Twin saves **over 230 Liters of freshwater (80.9% savings)** while keeping plant health high using harvested rainwater!
-5. **MQTT & Audit (1 min):** Switch to **📡 MQTT Bus** to showcase live IoT telemetry packets streaming across topics, then click **"Export State JSON"** and **"Export Experiment CSV"** to demonstrate complete data provenance.
