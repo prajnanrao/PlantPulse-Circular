@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PlantPulse Circular · 3D Virtual Digital Twin</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Three.js 3D WebGL Library & OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Chart.js for comparative analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon">🌱</div>
+            <div class="brand-info">
+                <h1>PlantPulse <span>Circular</span></h1>
+                <p>Virtual Digital Twin for Closed-Loop Water & Biomass Management</p>
+            </div>
+        </div>
+        <div class="header-status">
+            <span class="status-badge" id="badge-twin">
+                <span class="pulse-dot"></span> 3D Digital Twin Active
+            </span>
+            <span class="status-badge mqtt" id="badge-mqtt">
+                <span class="pulse-dot cyan"></span> MQTT Telemetry Bus
+            </span>
+        </div>
+    </header>
+
+    <!-- Top KPI Metrics Ribbon -->
+    <section class="metrics-ribbon">
+        <div class="kpi-card">
+            <div class="kpi-head">
+                <span class="kpi-title">Freshwater Used</span>
+                <span class="kpi-icon">💧</span>
+            </div>
+            <div class="kpi-val" id="kpi-fresh">— L</div>
+            <div class="kpi-sub" id="kpi-fresh-sub">vs fixed baseline</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-head">
+                <span class="kpi-title">Rainwater Reused</span>
+                <span class="kpi-icon">🌧</span>
+            </div>
+            <div class="kpi-val highlight" id="kpi-rain">— L</div>
+            <div class="kpi-sub" id="kpi-rain-sub">harvested from cistern</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-head">
+                <span class="kpi-title">Organic Waste Recovery</span>
+                <span class="kpi-icon">♻</span>
+            </div>
+            <div class="kpi-val highlight" id="kpi-waste">— %</div>
+            <div class="kpi-sub" id="kpi-waste-sub">compost conversion loop</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-head">
+                <span class="kpi-title">Avg Plant Health</span>
+                <span class="kpi-icon">🌿</span>
+            </div>
+            <div class="kpi-val" id="kpi-health">— %</div>
+            <div class="kpi-sub" id="kpi-health-sub">biomass vigor index</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-head">
+                <span class="kpi-title">Carbon Avoided</span>
+                <span class="kpi-icon">⚡</span>
+            </div>
+            <div class="kpi-val highlight" id="kpi-emissions">— kg</div>
+            <div class="kpi-sub">CO₂e emissions offset</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-head">
+                <span class="kpi-title">Utility Savings</span>
+                <span class="kpi-icon">💰</span>
+            </div>
+            <div class="kpi-val highlight" id="kpi-cost">—</div>
+            <div class="kpi-sub">water cost units saved</div>
+        </div>
+    </section>
+
+    <!-- Main Workspace Grid: 3D Viewport on Left, Control Studio on Right -->
+    <main class="app-grid">
+
+        <!-- Left Column: 3D Digital Twin Viewport -->
+        <section class="twin-viewport-container">
+            <!-- 3D Three.js WebGL Canvas Mounting Point -->
+            <div id="canvas-3d-container"></div>
+
+            <!-- Viewport Top HUD -->
+            <div class="viewport-top-hud">
+                <div class="hud-pill" id="hud-step-pill">
+                    <span>⏱ <b id="hud-step">Step 0</b> (<span id="hud-hours">0 hrs</span>)</span>
+                </div>
+                <div class="hud-pill" id="hud-weather-pill">
+                    <span>🌡 <b id="hud-temp">28°C</b></span>
+                    <span>☀ <b id="hud-light">70%</b></span>
+                    <span>🌧 <b id="hud-rain">0 mm</b></span>
+                </div>
+                <div class="hud-pill" id="hud-mode-pill">
+                    <span>Mode: <b id="hud-mode">CIRCULAR</b></span>
+                </div>
+            </div>
+
+            <!-- Camera View Presets Toolbar -->
+            <div class="camera-toolbar">
+                <button class="cam-btn active" data-cam="panoramic">🎥 Panoramic</button>
+                <button class="cam-btn" data-cam="bed1">🍅 Tomato</button>
+                <button class="cam-btn" data-cam="bed2">🌿 Basil</button>
+                <button class="cam-btn" data-cam="bed3">🥬 Spinach</button>
+                <button class="cam-btn" data-cam="tank">💧 Rain Tank</button>
+                <button class="cam-btn" data-cam="compost">♻ Compost</button>
+                <button class="cam-btn" data-cam="topdown">🗺 Top-Down</button>
+            </div>
+
+            <!-- Interactive 3D Object Callout / Telemetry Inspection Card -->
+            <div class="object-inspection-card" id="inspection-card" style="display: none;">
+                <div class="card-header">
+                    <h3 id="inspect-title">🌿 Plant Bed</h3>
+                    <button class="close-btn" id="inspect-close">✕</button>
+                </div>
+                <div id="inspect-content">
+                    <!-- Populated dynamically upon 3D click -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Studio Tabs & Control Panels -->
+        <aside class="studio-sidebar">
+            <!-- Navigation Tabs -->
+            <nav class="studio-tabs">
+                <button class="tab-btn active" data-tab="tab-controls">🎛 Twin Studio</button>
+                <button class="tab-btn" data-tab="tab-ml">🤖 ML Decision</button>
+                <button class="tab-btn" data-tab="tab-scenarios">⚖ Scenario A/B</button>
+                <button class="tab-btn" data-tab="tab-mqtt">📡 MQTT Bus</button>
+                <button class="tab-btn" data-tab="tab-audit">📋 Audit & Science</button>
+            </nav>
+
+            <!-- TAB 1: Digital Twin Controls & Live Telemetry -->
+            <section class="tab-content active" id="tab-controls">
+                <div class="section-title">Simulation Scenario</div>
+                <div class="controls-card">
+                    <div class="control-row">
+                        <label class="control-label">Operation Mode</label>
+                        <select id="mode-select" class="select-input">
+                            <option value="circular">Circular Digital Twin (Rainwater + ML + Compost)</option>
+                            <option value="baseline">Conventional Baseline (Fixed Tap Water + Landfill)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label">
+                            <span>Air Temperature</span>
+                            <b id="val-temp">28°C</b>
+                        </div>
+                        <input id="slider-temp" type="range" min="12" max="44" value="28">
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label">
+                            <span>Sunlight Radiation</span>
+                            <b id="val-light">70%</b>
+                        </div>
+                        <input id="slider-light" type="range" min="5" max="100" value="70">
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label">
+                            <span>Rainfall Catchment</span>
+                            <b id="val-rain">0 mm</b>
+                        </div>
+                        <input id="slider-rain" type="range" min="0" max="30" value="0">
+                    </div>
+
+                    <div class="control-row">
+                        <label class="control-label">Weather Presets</label>
+                        <div class="preset-weather-btns">
+                            <button class="preset-btn" id="preset-drought">☀️ Heatwave Drought</button>
+                            <button class="preset-btn" id="preset-monsoon">🌧 Monsoon Deluge</button>
+                            <button class="preset-btn" id="preset-spring">🌱 Mild Spring</button>
+                            <button class="preset-btn" id="preset-opt">🌤 Optimal Growth</button>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-row">
+                        <button class="btn-primary" id="btn-advance">
+                            <span>Advance 6 Hours ↗</span>
+                        </button>
+                        <button class="btn-secondary" id="btn-auto">
+                            <span id="auto-icon">▶</span> <span id="auto-text">Auto</span>
+                        </button>
+                        <button class="btn-secondary" id="btn-reset">
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plant Beds Mini Telemetry Grid -->
+                <div class="section-title">Plant Beds Telemetry</div>
+                <div class="beds-telemetry-grid" id="beds-mini-container">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Tank & Compost Mini Status -->
+                <div class="section-title">Closed-Loop Infrastructure</div>
+                <div class="eco-loop-container">
+                    <div class="eco-card" id="eco-tank-card" style="cursor: pointer;">
+                        <span class="eco-card-title">💧 Rainwater Cistern</span>
+                        <div class="eco-big-val" id="mini-tank-val">180 / 500 L</div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="mini-tank-bar" style="width: 36%; background: #38bdf8;"></div>
+                        </div>
+                        <span class="stat-line" style="margin-top: 0.2rem;"><span id="mini-tank-status">Storage: 36%</span></span>
+                    </div>
+
+                    <div class="eco-card" id="eco-compost-card" style="cursor: pointer;">
+                        <span class="eco-card-title">♻ Compost Bioreactor</span>
+                        <div class="eco-big-val" id="mini-compost-val">1.0 kg ready</div>
+                        <div class="stat-line">
+                            <span>Waste queued: <b id="mini-waste-queued">4.0 kg</b></span>
+                        </div>
+                        <span class="stat-line">
+                            <span>Internal temp: <b id="mini-pile-temp">48.5°C</b></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="controls-card" style="padding: 0.85rem;">
+                    <div class="stat-line">
+                        <span>Latest Actuator Action:</span>
+                        <b id="latest-action-msg">Ready to simulate.</b>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: Machine Learning Decision Engine -->
+            <section class="tab-content" id="tab-ml">
+                <div class="section-title">Random Forest Irrigation Predictor</div>
+                <div class="ml-forecast-box">
+                    <div class="stat-line">
+                        <span>Predicted Total Irrigation Demand:</span>
+                        <b id="ml-total-demand" style="font-size: 1.25rem; color: #34d399;">— L</b>
+                    </div>
+                    <div id="ml-bed-bars">
+                        <!-- Populated dynamically -->
+                    </div>
+                    <p style="font-size: 0.72rem; color: var(--text-dim);">
+                        Trained on 4,000 multi-factor microclimate records. Regresses evapotranspiration deficit to prevent over-watering and leaching.
+                    </p>
+                </div>
+
+                <div class="section-title">Benchmark Model Comparison</div>
+                <div class="ml-metrics-compare">
+                    <div class="ml-metric-pill">
+                        <small>ML Random Forest</small>
+                        <strong id="ml-mae">— L</strong>
+                        <small>MAE (Error)</small>
+                    </div>
+                    <div class="ml-metric-pill">
+                        <small>Threshold Rule</small>
+                        <strong id="rule-mae">3.27 L</strong>
+                        <small>MAE (Error)</small>
+                    </div>
+                    <div class="ml-metric-pill">
+                        <small>Fixed Timer</small>
+                        <strong id="fixed-mae">6.50 L</strong>
+                        <small>MAE (Error)</small>
+                    </div>
+                </div>
+
+                <div class="controls-card">
+                    <div class="stat-line">
+                        <span>Model Variance Explained (R² Score):</span>
+                        <b id="ml-r2" style="color: #38bdf8;">0.969 (96.9%)</b>
+                    </div>
+                    <div class="stat-line">
+                        <span>Root Mean Squared Error (RMSE):</span>
+                        <b id="ml-rmse">— L</b>
+                    </div>
+                </div>
+
+                <div class="section-title">Feature Importance Ranking</div>
+                <div class="controls-card" id="ml-importance-container">
+                    <!-- Populated dynamically with feature importance bars -->
+                </div>
+            </section>
+
+            <!-- TAB 3: Scenario Simulator & A/B Comparison Studio -->
+            <section class="tab-content" id="tab-scenarios">
+                <div class="section-title">A/B Twin Parallel Experiment</div>
+                <div class="scenario-runner-card">
+                    <div class="control-row">
+                        <label class="control-label">Select Stress Scenario</label>
+                        <select id="sim-scenario-select" class="select-input">
+                            <option value="heatwave_drought">☀️ Summer Heatwave & Drought (12 Steps, 36-40°C)</option>
+                            <option value="monsoon_rain">🌧 Monsoon Deluge & Storm (12 Steps, 8-28mm Rain)</option>
+                            <option value="seasonal_spring">🌱 Variable Spring Season (12 Steps, Fluctuating)</option>
+                        </select>
+                    </div>
+
+                    <p id="scenario-desc" style="font-size: 0.75rem; color: var(--text-muted);">
+                        5 consecutive days of extreme heat with zero rainfall. Evaluates water conservation and crop resilience.
+                    </p>
+
+                    <button class="btn-primary" id="btn-run-experiment">
+                        <span>Run Side-by-Side Simulation ⚡</span>
+                    </button>
+                </div>
+
+                <div class="section-title">Side-by-Side Outcome Report</div>
+                <div class="comparison-summary-grid" id="experiment-summary" style="display: none;">
+                    <div class="summary-col baseline">
+                        <h4>Conventional Baseline</h4>
+                        <div class="stat-line"><span>Freshwater:</span><b id="exp-base-fresh">— L</b></div>
+                        <div class="stat-line"><span>Rain Reused:</span><b>0.0 L</b></div>
+                        <div class="stat-line"><span>Waste to Landfill:</span><b id="exp-base-waste">— kg</b></div>
+                        <div class="stat-line"><span>Water Cost:</span><b id="exp-base-cost">—</b></div>
+                        <div class="stat-line"><span>Final Crop Health:</span><b id="exp-base-health">— %</b></div>
+                    </div>
+
+                    <div class="summary-col circular">
+                        <h4>Circular Digital Twin</h4>
+                        <div class="stat-line"><span>Freshwater:</span><b id="exp-circ-fresh" style="color: #34d399;">— L</b></div>
+                        <div class="stat-line"><span>Rain Reused:</span><b id="exp-circ-rain" style="color: #38bdf8;">— L</b></div>
+                        <div class="stat-line"><span>Compost Recovered:</span><b id="exp-circ-compost" style="color: #10b981;">— kg</b></div>
+                        <div class="stat-line"><span>Water Cost:</span><b id="exp-circ-cost">—</b></div>
+                        <div class="stat-line"><span>Final Crop Health:</span><b id="exp-circ-health" style="color: #34d399;">— %</b></div>
+                    </div>
+                </div>
+
+                <!-- Chart.js Comparative Graph Canvas -->
+                <div class="chart-wrapper" id="chart-container" style="display: none;">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+
+                <button class="btn-secondary" id="btn-export-experiment" style="display: none;">
+                    <span>📥 Export Experiment CSV</span>
+                </button>
+            </section>
+
+            <!-- TAB 4: Live MQTT IoT Telemetry Stream -->
+            <section class="tab-content" id="tab-mqtt">
+                <div class="section-title">MQTT Broker Connection</div>
+                <div class="mqtt-status-bar">
+                    <div>
+                        <span>Broker: <b id="mqtt-broker-host">broker.emqx.io:1883</b></span>
+                    </div>
+                    <span class="status-badge mqtt" id="mqtt-conn-pill">ONLINE</span>
+                </div>
+
+                <div class="section-title">Live Message Stream</div>
+                <div class="mqtt-console" id="mqtt-console-logs">
+                    <!-- Live MQTT log entries appear here -->
+                </div>
+
+                <div class="section-title">Publish Manual Command</div>
+                <div class="controls-card">
+                    <div class="control-row">
+                        <label class="control-label">Command Topic</label>
+                        <input id="mqtt-pub-topic" class="select-input" value="plantpulse/commands/step" style="padding: 0.45rem;">
+                    </div>
+                    <div class="control-row">
+                        <label class="control-label">JSON Payload</label>
+                        <input id="mqtt-pub-payload" class="select-input" value='{"inputs":{"temperature_c":32.0,"rainfall_mm":5.0}}' style="padding: 0.45rem; font-family: var(--font-mono);">
+                    </div>
+                    <button class="btn-secondary" id="btn-mqtt-publish">
+                        <span>Publish Topic 🚀</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 5: Methodology, Audit & Science -->
+            <section class="tab-content" id="tab-audit">
+                <div class="section-title">Circular Digital Twin Mechanics</div>
+                <ul class="audit-list">
+                    <li><b>Closed-Loop Water Balance:</b> Captures rainfall across roof area (12 m²) at 80% collection efficiency into a 500L translucent cistern. The smart booster pump prioritizes rainwater before drawing freshwater.</li>
+                    <li><b>Aerobic Biomass Loop:</b> Organic pruning waste (0.35 kg/step) is diverted from landfills into an aerobic bioreactor, undergoing thermophilic breakdown into rich organic compost soil amendment.</li>
+                    <li><b>Machine Learning Optimization:</b> A Random Forest Regressor predicts precise per-bed water needs from soil moisture, temperature, sunlight, and crop factor, avoiding the 6.5L average error of fixed timers.</li>
+                    <li><b>LCA Carbon Accounting:</b> Estimates avoided municipal pumping emissions (0.3g CO₂/L) and chemical fertilizer substitution offset (1.2 kg CO₂/kg compost).</li>
+                </ul>
+
+                <div class="action-buttons-row" style="margin-top: 1rem;">
+                    <button class="btn-primary" id="btn-export-json">
+                        <span>Export State JSON 💾</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-refresh-data">
+                        <span>Refresh Telemetry</span>
+                    </button>
+                </div>
+            </section>
+        </aside>
+    </main>
+
+    <!-- Footer Information -->
+    <footer>
+        <div>PlantPulse Circular Digital Twin · Built with Three.js, Flask, Scikit-Learn & MQTT</div>
+        <div>Synthetic Simulation Mode · Open Source Research Architecture</div>
+    </footer>
+
+    <!-- App Engine Scripts -->
+    <script src="/static/twin3d.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>

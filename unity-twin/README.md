@@ -1,0 +1,2 @@
+# Unity starter integration
+The browser dashboard is the complete runnable interface. These scripts are a starter for a Unity 2022.3 LTS+ scene. Start the Flask API, add `PlantPulseApiClient.cs` to a GameObject, and assign a TextMeshPro label. It polls `/api/health`. Extend it to parse `/api/state` and call `PlantBedVisual.SetMoisture()` for each bed to drive mesh colours. `127.0.0.1` only works when Unity and Python run on the same computer. For mobile builds, use a reachable LAN address and configure network access securely.

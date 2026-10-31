@@ -1,0 +1,951 @@
+/* ==========================================================================
+   PlantPulse Circular - Modern Glassmorphism Digital Twin Stylesheet
+   Theme: Cyber-Botanic (Deep Charcoal Slate + Bioluminescent Emerald & Cyan)
+   ========================================================================== */
+
+:root {
+    --bg-dark: #070c0a;
+    --bg-surface: rgba(15, 23, 20, 0.78);
+    --bg-surface-elevated: rgba(22, 34, 29, 0.88);
+    --bg-card: rgba(12, 19, 16, 0.65);
+    
+    --primary: #10b981;
+    --primary-glow: rgba(16, 185, 129, 0.35);
+    --primary-hover: #059669;
+    
+    --cyan: #06b6d4;
+    --cyan-glow: rgba(6, 182, 212, 0.3);
+    
+    --amber: #f59e0b;
+    --amber-glow: rgba(245, 158, 11, 0.25);
+    
+    --danger: #ef4444;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-bright: rgba(16, 185, 129, 0.3);
+    
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 10% 15%, rgba(16, 185, 129, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.06) 0%, transparent 40%);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header & Navigation Bar */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.8rem;
+    background: rgba(11, 17, 14, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.brand-info h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-info h1 span {
+    color: var(--primary);
+    background: linear-gradient(90deg, #10b981, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-info p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.mqtt {
+    background: rgba(6, 182, 212, 0.12);
+    color: #38bdf8;
+    border-color: rgba(6, 182, 212, 0.3);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    box-shadow: 0 0 8px var(--primary);
+    animation: pulse 2s infinite;
+}
+
+.pulse-dot.cyan {
+    background-color: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* KPI Metrics Ribbon */
+.metrics-ribbon {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.85rem;
+    padding: 1rem 1.8rem;
+}
+
+.kpi-card {
+    background: var(--bg-surface);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+.kpi-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+}
+
+.kpi-title {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.kpi-icon {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.kpi-val {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+
+.kpi-val.highlight {
+    color: #34d399;
+}
+
+.kpi-sub {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+}
+
+/* App Main Layout Grid: 3D Viewport on Left/Center, Studio Sidebar on Right */
+.app-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 1.25rem;
+    padding: 0 1.8rem 1.8rem 1.8rem;
+    height: calc(100vh - 175px);
+    min-height: 640px;
+}
+
+@media (max-width: 1180px) {
+    .app-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+}
+
+/* Left Column: 3D Digital Twin Viewport */
+.twin-viewport-container {
+    position: relative;
+    background: #080d0b;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+#canvas-3d-container {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    cursor: grab;
+}
+
+#canvas-3d-container:active {
+    cursor: grabbing;
+}
+
+/* 3D Viewport HUD Overlays */
+.viewport-top-hud {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.hud-pill {
+    pointer-events: auto;
+    background: rgba(10, 18, 14, 0.82);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 0.4rem 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--text-main);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.hud-pill b {
+    color: var(--primary);
+}
+
+.camera-toolbar {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 18, 14, 0.85);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 0.35rem 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+}
+
+.cam-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.cam-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.cam-btn.active {
+    background: var(--primary);
+    color: #042f1a;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* 3D Asset Inspection Callout Card */
+.object-inspection-card {
+    position: absolute;
+    bottom: 4.5rem;
+    left: 1.25rem;
+    width: 290px;
+    background: rgba(11, 20, 16, 0.92);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s;
+    z-index: 20;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.card-header h3 {
+    font-size: 0.92rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    margin-bottom: 0.4rem;
+}
+
+.card-row span {
+    color: var(--text-muted);
+}
+
+.card-row b {
+    color: #fff;
+}
+
+/* Right Column: Studio Tabs & Panels */
+.studio-sidebar {
+    background: var(--bg-surface);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.studio-tabs {
+    display: flex;
+    background: rgba(8, 14, 11, 0.7);
+    border-bottom: 1px solid var(--border);
+    padding: 0.4rem 0.6rem 0 0.6rem;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.tab-btn:hover {
+    color: #fff;
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem;
+    display: none;
+}
+
+.tab-content.active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Section Headings inside Tab */
+.section-title {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Simulation Controls Panel */
+.controls-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.control-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.control-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.control-label b {
+    color: #fff;
+    font-family: var(--font-mono);
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 8px var(--primary);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.preset-weather-btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+}
+
+.preset-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-main);
+    padding: 0.45rem 0.6rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.preset-btn:hover {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: var(--primary);
+}
+
+.action-buttons-row {
+    display: flex;
+    gap: 0.65rem;
+}
+
+.btn-primary {
+    flex: 1.5;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 4px 14px var(--primary-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px var(--primary-glow);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Plant Beds Live Status Grid */
+.beds-telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.bed-mini-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.bed-mini-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.bed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bed-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0.2rem 0;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+.progress-fill.moisture {
+    background: linear-gradient(90deg, #38bdf8, #0284c7);
+}
+
+.progress-fill.health {
+    background: linear-gradient(90deg, #34d399, #10b981);
+}
+
+.bed-stats-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+}
+
+/* Tank & Compost Ecosystem Status */
+.eco-loop-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.eco-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.eco-card-title {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.eco-big-val {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Machine Learning Decision Engine Tab */
+.ml-forecast-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.forecast-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.forecast-track {
+    flex: 1;
+    margin: 0 0.85rem;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.forecast-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #06b6d4);
+    border-radius: 4px;
+}
+
+.ml-metrics-compare {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.65rem;
+    text-align: center;
+}
+
+.ml-metric-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.4rem;
+}
+
+.ml-metric-pill small {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    display: block;
+}
+
+.ml-metric-pill strong {
+    font-size: 1.05rem;
+    color: #38bdf8;
+    font-family: var(--font-mono);
+}
+
+.importance-bar-row {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    margin-bottom: 0.4rem;
+}
+
+.importance-label {
+    width: 130px;
+    color: var(--text-muted);
+}
+
+.importance-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    margin: 0 0.6rem;
+    overflow: hidden;
+}
+
+.importance-fill {
+    height: 100%;
+    background: var(--amber);
+    border-radius: 3px;
+}
+
+/* Scenario Comparison Studio Tab */
+.scenario-runner-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.select-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--border);
+    color: #fff;
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    outline: none;
+}
+
+.comparison-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}
+
+.summary-col {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+}
+
+.summary-col h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.summary-col.baseline h4 {
+    color: #cbd5e1;
+}
+
+.summary-col.circular h4 {
+    color: #34d399;
+}
+
+.stat-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.76rem;
+    margin-bottom: 0.35rem;
+}
+
+.stat-line span {
+    color: var(--text-muted);
+}
+
+.stat-line b {
+    color: #fff;
+}
+
+.chart-wrapper {
+    width: 100%;
+    height: 220px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem;
+}
+
+/* MQTT Live Telemetry Console Tab */
+.mqtt-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.85rem;
+    font-size: 0.8rem;
+}
+
+.mqtt-console {
+    background: #050907;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    height: 280px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.log-entry {
+    display: flex;
+    gap: 0.6rem;
+    line-height: 1.4;
+    word-break: break-all;
+}
+
+.log-time {
+    color: var(--text-dim);
+}
+
+.log-topic {
+    color: var(--cyan);
+    font-weight: 600;
+}
+
+.log-payload {
+    color: #cbd5e1;
+}
+
+/* Methodology & Audit Tab */
+.audit-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.audit-list li {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding-left: 1.1rem;
+    position: relative;
+    line-height: 1.45;
+}
+
+.audit-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* Footer Notice */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.8rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    background: rgba(11, 17, 14, 0.7);
+}
+
+footer a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
